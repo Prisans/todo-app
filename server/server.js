@@ -1,7 +1,21 @@
 const express = require("express")
+const connectDB = require("./config/db")
+const todoRoutes = require("./routes/todoRoutes")
+const PORT = 8080
 
 const app = express()
 
-app.listen(8080 , ()=>{
-    console.log("runnnig")
+connectDB()
+
+app.use(express.json())
+
+app.use("/api/todos",todoRoutes)
+
+app.get("/",(req,res)=>{
+    res.send("server running")
+})
+
+
+app.listen(PORT,()=>{
+    console.log("server startedd")
 })
