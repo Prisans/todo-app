@@ -34,13 +34,16 @@ async function getTodos(req,res){
 async function updateTodo(req,res){
     try{
         const {id} = req.params
-        // console.log(todoId, typeof todoId)
-        const updatedTodo = await Todo.findByIdAndUpdate(id, {title : "my first todo got updated-22---89"},{ new: true })
+        const updatedTodo = await Todo.findByIdAndUpdate(id, {title : req.body.title , completed : req.body.completed},{ new: true , runValidators : true})
 
-        return res.status(200).json({status : true , data : updatedTodo})
+        if(!updatedTodo){
+            return res.status(404).json({success : false})
+        }
+
+        return res.status(200).json({success : true , data : updatedTodo})
 
     }catch(error){
-        return res.status(500).json({error : error.message || "inr"})
+        return res.status(500).json({error : error.message})
     }
 }
 
@@ -49,9 +52,12 @@ async function updateTodo(req,res){
 async function deleteTodo(req,res){
     try{
         const {id} = req.params
-        console.log(todoId)
         const deletedItem = await Todo.findByIdAndDelete(id)
-        return res.status(200).json({status : true , message : "deleted successfully" , data:deletedItem})
+        if(!deletedItem){
+            return res.status(404).json({success : false})
+        }
+
+        return res.status(200).json({success : true , message : "deleted successfully" , data:deletedItem})
     }catch(error){
         return res.status(500).json({error :error})
     }

@@ -1,11 +1,13 @@
 const express = require("express")
 const connectDB = require("./config/db")
 const todoRoutes = require("./routes/todoRoutes")
+const cors = require("cors")
 const PORT = 8080
 
 const app = express()
 
 connectDB()
+app.use(cors())
 
 app.use(express.urlencoded({extended : true}))
 
