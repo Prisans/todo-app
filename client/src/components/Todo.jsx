@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios"
 
 const Todo = () => {
-    const API_URL = "http://localhost:8080/api/todos"
+    const API_URL = "https://todo-app-mziu.onrender.com/api/todos"
     const [todoData,setTodoData] = useState([])
     const [todoInput,setTodoInput] = useState("")
     const [todoId,setTodoId] = useState(null)
