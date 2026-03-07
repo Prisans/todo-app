@@ -1,3 +1,5 @@
+const dotenv = require("dotenv")
+dotenv.config()
 const express = require("express")
 const connectDB = require("./config/db")
 const todoRoutes = require("./routes/todoRoutes")
@@ -9,7 +11,7 @@ const app = express()
 connectDB()
 
 app.use(cors({
-    origin: "https://todo-app-ten-kappa-35.vercel.app",
+    origin: "*",
     methods: ["GET","POST","PUT","DELETE"],
     credentials: true
   }))
