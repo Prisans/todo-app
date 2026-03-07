@@ -4,15 +4,20 @@ const express = require("express")
 const connectDB = require("./config/db")
 const todoRoutes = require("./routes/todoRoutes")
 const cors = require("cors")
-const PORT = 8080
+const PORT = process.env.PORT || 8080
 
 const app = express()
 
 connectDB()
 
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://todo-app-ten-kappa-35.vercel.app"
+  ]
+
 app.use(cors({
-    origin: "https://todo-app-ten-kappa-35.vercel.app",
-    methods: ["GET","POST","PUT","DELETE"],
+    origin: allowedOrigins,
+    methods: ["GET","POST","PUT","DELETE","PATCH"],
     credentials: true
   }))
 
