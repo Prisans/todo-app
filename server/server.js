@@ -11,7 +11,7 @@ const app = express()
 connectDB()
 
 app.use(cors({
-    origin: "*",
+    origin: "https://todo-app-ten-kappa-35.vercel.app",
     methods: ["GET","POST","PUT","DELETE"],
     credentials: true
   }))
