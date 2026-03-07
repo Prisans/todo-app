@@ -1,4 +1,3 @@
-const { default: mongoose } = require("mongoose")
 const Todo = require("../models/Todo")
 
 // create todo
@@ -13,8 +12,9 @@ async function createTodo(req,res){
         const newTodo = await Todo.create({title : trimmedTitle})
     
         return res.status(201).json({success : true , data : newTodo})
-    }catch(error){
-        return res.status(500).json({error : "Invalid Server Error"})
+    } catch (error) {
+        console.error("Create Todo Error:", error)
+        return res.status(500).json({ success: false, error: error.message || "Internal Server Error" })
     }
 
     
@@ -25,8 +25,9 @@ async function getTodos(req,res){
     try{
         const todoData = await Todo.find({})
         return res.status(200).json({success : true , data : todoData})
-    }catch(error){
-        return res.status(500).json({error : "invalid server error"})
+    } catch (error) {
+        console.error("Get Todos Error:", error)
+        return res.status(500).json({ success: false, error: error.message || "Internal Server Error" })
     }
 }
 
@@ -43,8 +44,9 @@ async function updateTodo(req,res){
 
         return res.status(200).json({success : true , data : updatedTodo})
 
-    }catch(error){
-        return res.status(500).json({error : error.message})
+    } catch (error) {
+        console.error("Update Todo Error:", error)
+        return res.status(500).json({ success: false, error: error.message || "Internal Server Error" })
     }
 }
 
@@ -59,8 +61,9 @@ async function deleteTodo(req,res){
         }
 
         return res.status(200).json({success : true , message : "deleted successfully" , data:deletedItem})
-    }catch(error){
-        return res.status(500).json({error :error})
+    } catch (error) {
+        console.error("Delete Todo Error:", error)
+        return res.status(500).json({ success: false, error: error.message || "Internal Server Error" })
     }
 }
 
