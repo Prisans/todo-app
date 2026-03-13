@@ -20,8 +20,6 @@ app.use(cors({
 app.use(express.urlencoded({extended : true}))
 app.use(express.json())
 
-// Connect to DB and Log
-connectDB();
 
 app.use("/api/todos",todoRoutes)
 
@@ -36,6 +34,9 @@ app.get("/",(req,res)=>{
 })
 
 
-app.listen(PORT,()=>{
-    console.log("server startedd")
+// Connect to DB and Log
+connectDB().then(()=>{
+  app.listen(PORT,()=>{
+    console.log("server started")
+  })
 })

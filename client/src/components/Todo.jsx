@@ -5,7 +5,6 @@ const Todo = () => {
     const API_URL = "https://todo-app-mziu.onrender.com/api/todos"
     const [todoData,setTodoData] = useState([])
     const [todoInput,setTodoInput] = useState("")
-    const [todoId,setTodoId] = useState(null)
     const [editInput,setEditInput] = useState("")
     // const [updateTodo,setUpdateTodo] = useState({
     //     title : "",
@@ -46,13 +45,21 @@ const Todo = () => {
 
     // reading
 
-    async function getTodos(){
-        try{
-            const response = await axios.get(API_URL)
-            setTodoData(response.data.data)
-        }catch(error){
-            console.log(error)
+    async function getTodos(retry = true){
+      try{
+        const response = await axios.get(API_URL)
+        setTodoData(response.data.data)
+      }catch(error){
+    
+        console.log("API failed, retrying...")
+    
+        if(retry){
+          setTimeout(()=>{
+            getTodos(false)
+          },5000)
         }
+    
+      }
     }
 
     // update todo
