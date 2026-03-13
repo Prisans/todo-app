@@ -8,9 +8,19 @@ const PORT = process.env.PORT || 8080
 
 const app = express()
 
+// Check for required environment variables
+if (!process.env.MONGO_URI) {
+  console.error("FATAL ERROR: MONGO_URI is not defined in environment variables.");
+  process.exit(1);
+}
+
 // Updated CORS to be more robust
 app.use(cors({
-    origin: ["http://localhost:5173", "https://todo-app-ten-kappa-35.vercel.app"],
+    origin: [
+      "http://localhost:5173", 
+      "https://todo-app-ten-kappa-35.vercel.app",
+      "https://todo-app-mziu.onrender.com"
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -37,6 +47,8 @@ app.get("/",(req,res)=>{
 // Connect to DB and Log
 connectDB().then(()=>{
   app.listen(PORT,()=>{
-    console.log("server started")
+    console.log(`Server started on port ${PORT}`)
   })
+}).catch(err => {
+  console.error("Failed to start server due to DB connection error:", err);
 })

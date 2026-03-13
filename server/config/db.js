@@ -6,7 +6,9 @@ async function connectDB(){
         console.log("db connnected")
     }
     catch(error){
-        console.log(error)
+        console.error("CRITICAL ERROR: MongoDB connection failed.");
+        console.error("Error Message:", error.message);
+        console.error("Ensure MONGO_URI is correctly set in environment variables.");
         process.exit(1)
     }
 }
