@@ -10,7 +10,8 @@ const app = express()
 
 // Check for required environment variables
 if (!process.env.MONGO_URI) {
-  console.error("FATAL ERROR: MONGO_URI is not defined in environment variables.");
+  console.error("FATAL ERROR: MONGO_URI is not defined.");
+  console.error("Please add MONGO_URI to your Render environment variables.");
   process.exit(1);
 }
 

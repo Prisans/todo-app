@@ -6,6 +6,7 @@ const Todo = () => {
     const [todoData,setTodoData] = useState([])
     const [todoInput,setTodoInput] = useState("")
     const [editInput,setEditInput] = useState("")
+    const [todoId,setTodoId]= useState(null)
     // const [updateTodo,setUpdateTodo] = useState({
     //     title : "",
     //     isUpdated : true
