@@ -1,45 +1,38 @@
 const authService = require("../services/authService");
+const catchAsync = require("../utils/catchAsync");
 
-const signup = async (req, res) => {
-  try {
-    const { user, accessToken, refreshToken } = await authService.signup(req.body);
+const signup = catchAsync(async (req, res) => {
+  const { user, accessToken, refreshToken } = await authService.signup(req.body);
 
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  });
 
-    res.status(201).json({
-      success: true,
-      data: { user, accessToken },
-    });
-  } catch (error) {
-    res.status(400).json({ success: false, message: error.message });
-  }
-};
+  res.status(201).json({
+    success: true,
+    data: { user, accessToken },
+  });
+});
 
-const login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const { user, accessToken, refreshToken } = await authService.login(email, password);
+const login = catchAsync(async (req, res) => {
+  const { email, password } = req.body;
+  const { user, accessToken, refreshToken } = await authService.login(email, password);
 
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  });
 
-    res.status(200).json({
-      success: true,
-      data: { user, accessToken },
-    });
-  } catch (error) {
-    res.status(401).json({ success: false, message: error.message });
-  }
-};
+  res.status(200).json({
+    success: true,
+    data: { user, accessToken },
+  });
+});
 
 const logout = (req, res) => {
   res.clearCookie("refreshToken");

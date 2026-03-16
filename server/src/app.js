@@ -52,7 +52,21 @@ app.get("/", (req, res) => {
     res.send("server running");
 });
 
-// Global error handler to preserve CORS headers on error
+// Diagnostic route
+app.get("/api/health", (req, res) => {
+    res.status(200).json({ status: "ok", message: "API is reachable" });
+});
+
+// 404 Handler
+app.use((req, res, next) => {
+  logger.warn(`404 - Not Found: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ 
+    success: false, 
+    message: `Route ${req.originalUrl} not found` 
+  });
+});
+
+// Global error handler
 app.use((err, req, res, next) => {
   logger.error("Global Error Handler: %o", err);
   res.status(err.status || 500).json({ 
