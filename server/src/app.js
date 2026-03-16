@@ -11,23 +11,7 @@ const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
-// HTTP Request Logging
-app.use(morgan("combined", { stream: { write: (message) => logger.info(message.trim()) } }));
-
-// Security Middlewares
-app.use(helmet()); // Set security HTTP headers
-app.use(mongoSanitize()); // Data sanitization against NoSQL query injection
-
-// Rate Limiting
-const limiter = rateLimit({
-  max: 100, // Limit each IP to 100 requests per windowMs
-  windowMs: 60 * 60 * 1000, // 1 hour
-  message: "Too many requests from this IP, please try again in an hour!",
-});
-app.use("/api", limiter);
-
-// Standard Middlewares
-app.use(cookieParser());
+// 1. CORS - MUST BE FIRST
 app.use(cors({
     origin: [
       "http://localhost:5173", 
@@ -37,9 +21,25 @@ app.use(cors({
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
-    optionsSuccessStatus: 200
 }));
 
+// 2. Logging
+app.use(morgan("combined", { stream: { write: (message) => logger.info(message.trim()) } }));
+
+// 3. Security
+app.use(helmet());
+app.use(mongoSanitize());
+
+// 4. Rate Limiting
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000,
+  message: "Too many requests from this IP, please try again in an hour!",
+});
+app.use("/api", limiter);
+
+// 5. Body Parsing
+app.use(cookieParser());
 app.use(express.urlencoded({extended : true}));
 app.use(express.json());
 
