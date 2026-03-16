@@ -14,7 +14,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useTodos, useUpdateTodo } from "../hooks/useTodos";
+import { useTodos, useUpdateTodo } from "../../hooks/useTodos";
 import KanbanColumn from "./KanbanColumn";
 import KanbanCard from "./KanbanCard";
 
