@@ -1,4 +1,5 @@
 const Todo = require("../models/Todo");
+const { updateUserStreak } = require("./streakService");
 
 const createTodo = async (userId, todoData) => {
   return await Todo.create({ 
@@ -13,11 +14,17 @@ const getAllTodos = async (userId) => {
 };
 
 const updateTodo = async (id, userId, updateData) => {
-  return await Todo.findOneAndUpdate(
+  const updatedTodo = await Todo.findOneAndUpdate(
     { _id: id, userId }, 
     updateData, 
     { new: true, runValidators: true }
   );
+
+  if (updatedTodo && updateData.status === "done") {
+    await updateUserStreak(userId);
+  }
+
+  return updatedTodo;
 };
 
 const deleteTodo = async (id, userId) => {

@@ -22,9 +22,43 @@ const userSchema = new mongoose.Schema(
       required: [true, "Name is required"],
       trim: true,
     },
+    username: {
+      type: String,
+      unique: true,
+      trim: true,
+      lowercase: true,
+      sparse: true, // Allow nulls during migration but ensure uniqueness when present
+    },
+    bio: {
+      type: String,
+      maxlength: 160,
+    },
+    avatar: {
+      type: String, // URL to image
+    },
+    followers: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }],
+    following: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }],
+    streak: {
+      current: { type: Number, default: 0 },
+      max: { type: Number, default: 0 },
+      lastDoneDate: { type: Date }
+    },
+    badges: [{
+      type: String,
+      enum: ["Early Adopter", "Streak Starter", "Productivity Ninja", "Consistency King"]
+    }]
   },
   { timestamps: true }
 );
+
+// Index for social searches
+userSchema.index({ username: "text", name: "text" });
 
 // Hash password before saving
 userSchema.pre("save", async function () {

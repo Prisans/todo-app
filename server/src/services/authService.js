@@ -25,7 +25,17 @@ const signup = async (userData) => {
     throw new Error("Email already in use");
   }
 
-  const user = await User.create({ email, password, name });
+  // Generate a basic username from email if not provided
+  const baseUsername = email.split("@")[0].replace(/[^a-zA-Z0-9]/g, "");
+  let username = baseUsername;
+  
+  // Check if username exists, if so append random numbers
+  const existingUsername = await User.findOne({ username });
+  if (existingUsername) {
+    username = `${baseUsername}${Math.floor(Math.random() * 1000)}`;
+  }
+
+  const user = await User.create({ email, password, name, username });
   const tokens = generateTokens(user._id);
 
   return { user, ...tokens };

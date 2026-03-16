@@ -8,6 +8,7 @@ const morgan = require("morgan");
 const logger = require("./utils/logger");
 const todoRoutes = require("./routes/todoRoutes");
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
@@ -47,6 +48,7 @@ app.use(express.json());
 const apiRouter = express.Router();
 apiRouter.use("/auth", authRoutes);
 apiRouter.use("/todos", todoRoutes);
+apiRouter.use("/users", userRoutes);
 
 app.use("/api", apiRouter);
 
