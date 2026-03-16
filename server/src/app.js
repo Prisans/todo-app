@@ -44,8 +44,11 @@ app.use(express.urlencoded({extended : true}));
 app.use(express.json());
 
 // Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/todos", todoRoutes);
+const apiRouter = express.Router();
+apiRouter.use("/auth", authRoutes);
+apiRouter.use("/todos", todoRoutes);
+
+app.use("/api", apiRouter);
 
 // Base route
 app.get("/", (req, res) => {
