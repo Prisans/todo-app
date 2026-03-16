@@ -1,12 +1,13 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Plus, LogOut, CheckCircle2, Circle, Trash2, Calendar, LayoutGrid, List as ListIcon } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Plus, LogOut, CheckCircle2, Circle, Trash2, Calendar, LayoutGrid, List as ListIcon, Users } from "lucide-react";
 import { useTodos, useCreateTodo, useUpdateTodo, useDeleteTodo } from "../hooks/useTodos";
 import { useAuth } from "../hooks/useAuth";
 import { useAuthStore } from "../store/authStore";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import KanbanBoard from "../components/todo/KanbanBoard";
+import Avatar from "../components/ui/Avatar";
+import ThemeToggle from "../components/ui/ThemeToggle";
 import { cn } from "../lib/utils";
 
 const Dashboard = () => {
@@ -28,35 +29,48 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-6 py-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
+    <div className="min-h-screen bg-background">
+      <nav className="bg-card border-b px-6 py-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
             <CheckCircle2 className="text-white w-5 h-5" />
           </div>
-          <span className="text-xl font-bold dark:text-white">TaskFlow</span>
+          <span className="text-xl font-bold">TaskFlow</span>
         </div>
         
         <div className="flex items-center gap-4">
-          <div className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-lg mr-2">
+          <Link to="/social">
+            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
+              <Users className="w-5 h-5" />
+            </Button>
+          </Link>
+          <ThemeToggle />
+          <div className="h-6 w-px bg-border" />
+          
+          <div className="flex bg-muted p-1 rounded-lg mr-2">
             <button
                onClick={() => setView("list")}
-               className={cn("p-1.5 rounded-md transition-all", view === "list" ? "bg-white dark:bg-gray-700 shadow-sm text-indigo-600" : "text-gray-500")}
+               className={cn("p-1.5 rounded-md transition-all", view === "list" ? "bg-card shadow-sm text-primary" : "text-muted-foreground")}
             >
               <ListIcon className="w-4 h-4" />
             </button>
             <button
                onClick={() => setView("board")}
-               className={cn("p-1.5 rounded-md transition-all", view === "board" ? "bg-white dark:bg-gray-700 shadow-sm text-indigo-600" : "text-gray-500")}
+               className={cn("p-1.5 rounded-md transition-all", view === "board" ? "bg-card shadow-sm text-primary" : "text-muted-foreground")}
             >
               <LayoutGrid className="w-4 h-4" />
             </button>
           </div>
-          <div className="h-6 w-px bg-gray-200 dark:bg-gray-800" />
-          <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-            {user?.name}
-          </span>
-          <Button variant="ghost" size="sm" onClick={logout} className="gap-2 text-gray-500 hover:text-red-500">
+          <div className="h-6 w-px bg-border" />
+          
+          <Link to="/profile" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <span className="text-sm font-medium hidden md:block">
+              {user?.name}
+            </span>
+            <Avatar name={user?.name} size="sm" />
+          </Link>
+          
+          <Button variant="ghost" size="icon" onClick={logout} className="text-muted-foreground hover:text-destructive">
             <LogOut className="w-4 h-4" />
           </Button>
         </div>

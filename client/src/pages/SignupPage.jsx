@@ -15,15 +15,15 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-md w-full space-y-8 bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="max-w-md w-full space-y-8 bg-card p-10 rounded-3xl shadow-2xl border transition-all"
       >
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Create an account</h2>
-          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          <h2 className="text-3xl font-extrabold tracking-tight">Create an account</h2>
+          <p className="mt-2 text-sm text-muted-foreground">
             Start organizing your tasks with TaskFlow
           </p>
         </div>
@@ -57,19 +57,19 @@ const SignupPage = () => {
           </div>
 
            {error && (
-            <div className="text-red-500 text-sm text-center font-medium">
+            <div className="text-destructive text-sm text-center font-medium bg-destructive/10 py-2 rounded-lg">
               {error.response?.data?.message || "An error occurred during signup"}
             </div>
           )}
 
-          <Button type="submit" className="w-full" isLoading={isLoading}>
+          <Button type="submit" className="w-full h-12 text-base font-bold" isLoading={isLoading}>
             Get Started
           </Button>
         </form>
 
-        <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+        <p className="text-center text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+          <Link to="/login" className="font-bold text-primary hover:underline">
             Sign in
           </Link>
         </p>
