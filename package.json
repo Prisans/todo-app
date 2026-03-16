@@ -1,0 +1,24 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "prepare": "husky",
+    "lint": "npm run lint --prefix server && npm run lint --prefix client",
+    "format": "npm run format --prefix server && npm run format --prefix client"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0"
+  },
+  "lint-staged": {
+    "server/**/*.{js,json}": [
+      "npm run format --prefix server",
+      "npm run lint --prefix server"
+    ],
+    "client/src/**/*.{js,jsx,ts,tsx,css}": [
+      "npm run format --prefix client",
+      "npm run lint --prefix client"
+    ]
+  }
+}

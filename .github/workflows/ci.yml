@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install Root Dependencies
+      run: npm install
+      
+    - name: Install Server Dependencies
+      run: cd server && npm install
+      
+    - name: Install Client Dependencies
+      run: cd client && npm install
+      
+    - name: Lint All
+      run: npm run lint
+      
+    # - name: Run Tests
+    #   run: npm test
