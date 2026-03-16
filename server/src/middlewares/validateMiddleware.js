@@ -5,15 +5,23 @@ const validate = (schema) => (req, res, next) => {
       query: req.query,
       params: req.params,
     });
-    next();
+    
+    if (typeof next === "function") {
+      next();
+    } else {
+      console.error("Next is not a function in validate middleware");
+      res.status(500).json({ success: false, message: "Internal Server Middleware Error" });
+    }
   } catch (error) {
+    const errorMessages = error.errors ? error.errors.map((err) => ({
+      path: err.path[err.path.length - 1],
+      message: err.message,
+    })) : [{ path: "unknown", message: error.message }];
+
     return res.status(400).json({
       success: false,
       message: "Validation Error",
-      errors: error.errors.map((err) => ({
-        path: err.path[1],
-        message: err.message,
-      })),
+      errors: errorMessages,
     });
   }
 };
