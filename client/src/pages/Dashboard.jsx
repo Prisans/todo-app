@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { Plus, LogOut, CheckCircle2, Circle, Trash2, Calendar, LayoutGrid, List as ListIcon, Users } from "lucide-react";
 import { useTodos, useCreateTodo, useUpdateTodo, useDeleteTodo } from "../hooks/useTodos";
 import { useAuth } from "../hooks/useAuth";
