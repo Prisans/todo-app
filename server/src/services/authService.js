@@ -2,6 +2,10 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 const generateTokens = (userId) => {
+  if (!process.env.JWT_ACCESS_SECRET || !process.env.JWT_REFRESH_SECRET) {
+    throw new Error("Missing JWT configuration. Please check environment variables.");
+  }
+
   const accessToken = jwt.sign({ id: userId }, process.env.JWT_ACCESS_SECRET, {
     expiresIn: process.env.JWT_ACCESS_EXPIRES_IN || "15m",
   });
